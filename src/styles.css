@@ -1,0 +1,395 @@
+:root {
+  --teal: #5dd0de;
+  --red: #dd4633;
+  --ink: #2b2b2b;
+  --ink-soft: #55524f;
+  --body-gray: rgb(118, 118, 118);
+  --bg: #ffffff;
+  --max-width: 464px;
+  --gap: clamp(1.25rem, 4vw, 2rem);
+
+  --font-mono: 'Consolas', 'JetBrains Mono', 'Courier New', monospace;
+  --font-body: 'Carlito', 'Calibri', Candara, 'Segoe UI', Arial, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  color: var(--body-gray);
+  background: var(--bg);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.35;
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: inherit;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+ul {
+  padding-left: 1.15em;
+  margin: 0.5em 0;
+}
+
+li {
+  margin-bottom: 0.2em;
+}
+
+li:last-child {
+  margin-bottom: 0;
+}
+
+p {
+  margin: 0 0 1em 0;
+}
+
+p:last-child {
+  margin-bottom: 0;
+}
+
+/* Visible keyboard focus, kept even where we style away default outlines */
+a:focus-visible,
+button:focus-visible {
+  outline: 3px solid var(--red);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+/* ---------- Page shell ---------- */
+
+.page {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: clamp(1.5rem, 5vw, 3rem) 1.25rem 4rem;
+}
+
+.page--home {
+  max-width: 640px;
+}
+
+/* ---------- Nav grid ---------- */
+
+/* The reference design is a square-tile grid: the logo tile is a 2x2
+   block and each nav tile is a single square cell, each showing the
+   site's actual exported button image (matches font/spacing exactly,
+   since recreating that typewriter font in CSS never quite matched).
+   Row height is left to 'auto' so it derives from the square nav-tile
+   aspect-ratio — the logo tile then naturally comes out square too. */
+.nav-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  grid-auto-rows: auto;
+  gap: 3px;
+  width: 100%;
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+.nav-grid a,
+.nav-grid .logo-tile {
+  display: block;
+  line-height: 0;
+  overflow: hidden;
+  transition: filter 0.15s ease;
+}
+
+.nav-grid a:hover,
+.nav-grid a:focus-visible {
+  filter: brightness(1.08);
+}
+
+.nav-grid img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.logo-tile {
+  grid-column: 1;
+  grid-row: 1 / 3;
+}
+
+.nav-tile {
+  aspect-ratio: 1;
+}
+
+/* The exported button images are baked with a red background and teal
+   text. The active/current-page tile in the original site swaps those
+   colors (teal background, red text). Red and teal sit almost exactly
+   180 degrees apart on the hue wheel in this palette, so rotating hue
+   by 180deg reproduces that swap without needing a second image. */
+.nav-tile.is-active img {
+  filter: hue-rotate(180deg);
+}
+
+@media (max-width: 480px) {
+  .nav-grid {
+    grid-template-columns: repeat(3, 1fr);
+    max-width: 360px;
+  }
+
+  .logo-tile {
+    grid-column: 1 / 4;
+    grid-row: 1;
+  }
+
+  .logo-tile img {
+    aspect-ratio: 3 / 1;
+    object-fit: cover;
+  }
+}
+
+/* ---------- Typography ---------- */
+
+.section-heading {
+  font-family: var(--font-mono);
+  color: var(--red);
+  font-size: 15px;
+  line-height: 1.3;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  margin: 2.5em 0 0.75em;
+}
+
+.section-heading:first-of-type {
+  margin-top: 2em;
+}
+
+.section-heading--teal {
+  color: var(--teal);
+  -webkit-text-stroke: 0.3px var(--ink);
+}
+
+.intro {
+  margin-top: 2rem;
+  color: var(--body-gray);
+}
+
+.body-text {
+  color: var(--body-gray);
+  font-size: 12px;
+  font-weight: 400;
+  text-align: justify;
+}
+
+.body-text--soft {
+  color: var(--ink-soft);
+}
+
+/* ---------- Footer ---------- */
+
+.site-footer {
+  max-width: var(--max-width);
+  margin: 4rem auto 0;
+  padding: 1.5rem 1.25rem 0;
+  font-size: 0.8rem;
+  color: var(--ink-soft);
+}
+
+.site-footer a {
+  text-decoration: underline;
+}
+
+/* ---------- About page ---------- */
+
+.cube-image {
+  width: 240px;
+  margin: 2rem auto;
+}
+
+.fossil-image {
+  width: 50%;
+  max-width: 160px;
+  margin: 2rem 0 0;
+  border-radius: 2px;
+}
+
+.founder-name {
+  color: var(--red);
+  font-weight: 400;
+  text-decoration: underline;
+}
+
+.founder-bold {
+  font-weight: 700;
+}
+
+/* ---------- Approach page: model diagram ---------- */
+
+.model-diagram {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr auto 1fr;
+  grid-template-rows: 1fr 1fr;
+  align-items: center;
+  gap: clamp(0.5rem, 2.5vw, 1.5rem) clamp(0.4rem, 2vw, 1.25rem);
+  margin: 1.75rem 0 2.5rem;
+  width: 100%;
+}
+
+.model-box {
+  border: 2px solid var(--teal);
+  color: var(--red);
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: clamp(8px, 2.6vw, 12px);
+  text-align: center;
+  aspect-ratio: 1;
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.3rem;
+  overflow-wrap: break-word;
+}
+
+.model-arrow {
+  color: var(--teal);
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 1.3rem;
+  text-align: center;
+}
+
+.m-assessment { grid-column: 1; grid-row: 1; }
+.m-arrow1 { grid-column: 2; grid-row: 1; }
+.m-roadmap { grid-column: 1; grid-row: 2; }
+.m-arrow2 { grid-column: 2; grid-row: 2; }
+.m-planning { grid-column: 3; grid-row: 1 / 3; }
+.m-arrow3 { grid-column: 4; grid-row: 1 / 3; }
+.m-implementation { grid-column: 5; grid-row: 1 / 3; }
+
+@media (max-width: 560px) {
+  .model-diagram {
+    grid-template-columns: 1fr;
+    grid-template-rows: none;
+    justify-items: center;
+  }
+
+  .m-assessment, .m-arrow1, .m-roadmap, .m-arrow2, .m-planning, .m-arrow3, .m-implementation {
+    grid-column: 1;
+    grid-row: auto;
+  }
+
+  .model-box {
+    width: min(140px, 60vw);
+  }
+
+  .model-arrow {
+    transform: rotate(90deg);
+  }
+}
+
+/* ---------- Testimonials page ---------- */
+
+.testimonial {
+  margin-bottom: 2.75rem;
+}
+
+.testimonial:last-child {
+  margin-bottom: 0;
+}
+
+.testimonial-name {
+  font-family: var(--font-mono);
+  color: var(--red);
+  font-weight: 700;
+  font-size: 1rem;
+  margin-bottom: 0.1em;
+}
+
+.testimonial-title {
+  color: var(--red);
+  font-size: 0.85rem;
+  margin-bottom: 0.9rem;
+}
+
+.testimonial-quote {
+  font-style: italic;
+  color: var(--ink-soft);
+  padding-left: 1.5rem;
+}
+
+.testimonial-quote p {
+  margin-bottom: 1em;
+}
+
+/* ---------- Projects page ---------- */
+
+.project {
+  margin-bottom: 2.75rem;
+}
+
+.project:last-child {
+  margin-bottom: 0;
+}
+
+.project-logo {
+  height: 42px;
+  width: auto;
+  margin-top: 1.1rem;
+  margin-left: auto;
+}
+
+/* ---------- Contact page ---------- */
+
+.contact-links {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  margin-top: 2rem;
+}
+
+.contact-link {
+  display: flex;
+  align-items: baseline;
+  gap: 0.6em;
+  font-family: var(--font-mono);
+  font-size: clamp(1rem, 3vw, 1.15rem);
+  text-decoration: none;
+  color: var(--ink);
+  border-bottom: 2px solid transparent;
+  width: fit-content;
+  transition: border-color 0.15s ease, color 0.15s ease;
+}
+
+.contact-link:hover,
+.contact-link:focus-visible {
+  color: var(--red);
+  border-color: var(--red);
+}
+
+.contact-label {
+  color: var(--red);
+  font-weight: 700;
+  min-width: 5.5em;
+}
+
+/* ---------- 404 page ---------- */
+
+.not-found {
+  text-align: center;
+  padding: 4rem 1.25rem;
+}
